@@ -1335,3 +1335,12 @@
 .optin-loader.optin-loader-light:after, .optin-loader.optin-loader-light:before {
     border-color: #fff
 }
+.titleColor {
+    color: #3091f2;
+}
+
+.footer {
+    width: 100%;
+    height: 60px; /* footer的高度一定要是固定值*/
+    background: #f5f7f9;
+}
