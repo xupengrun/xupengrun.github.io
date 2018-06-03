@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="keywords" content="<?= $site_keywords ?>">
+    <meta name="description" content="<?= $site_description ?>">
+    <meta name="author" content="<?= $site_name ?>">
+    <title>MyDaily</title>
+    <!-- Loading Bootstrap -->
+    <link href="http://static.anman.org/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/button.css" rel="stylesheet">
+    <link href="http://static.anman.org/static/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://static.anman.org/static/jquery/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://static.anman.org/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://static.anman.org/static/bootstrap/js/bootbox.min.js"></script>
+    <script src="http://static.anman.org/static/bootstrap/js/nebulas.js"></script>
+    <script type="text/javascript" src="js/nebulas.js"></script>
+
+    <script type="text/javascript" src="js/nebPay.js"></script>
+    <style type="text/css">
+        .wallet {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .send {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .err {
+            border-color: red;
+        }
+
+        .openfile {
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            height: 50px;
+            line-height: 50px;
+            border: 1px solid red;
+            display: block;
+            text-align: center
+        }
+
+        .titleColor {
+            color: #3091f2;
+        }
+
+        .footer {
+            width: 100%;
+            height: 80px; /* footer的高度一定要是固定值*/
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            background: #e3e8ee;
+        }
+    </style>
+</head>
+<body>
+<style type="text/css">
+    .navbar-toggle .icon-bar {
+        background-color: #000;
+    }
+</style>
+<!-- Static navbar -->
+<nav class="navbar navbar-static-top" style="margin-bottom:1px;">
+    <div class="container">
+        <div class="navbar-header ">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand titleColor"><b>MyDaily</b></span>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav titleColor">
+                <li><a href="index.html" class="titleColor"><b>记录今天</b></a></li>
+                <li><a href="search.html" class="titleColor"><b>查看过往</b></a></li>
+                <li style="background-color: #eee;"><a href="./about.html" class="titleColor"><b>关于</b></a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<section id="account_book" style="margin-top:10px;padding-bottom: 10px;">
+    <div class="container">
+        <div id="contentCon" style="margin-bottom: 10px;margin-top: 100px">
+            <div id="info" class="portfolio" style="padding:4em 0 1.5em 0">
+                <div class="container" style="text-align: center">
+                    <h3>Today Is A New Day</h3>
+                </div>
+            </div>
+            <div class="features" style="padding: 1.5em 0">
+                <div class="container">
+                    <div style="text-align: center;line-height: 2em;font-size: 16px">
+                        <p >MyDaily是一个基于星云链的日记网站</p>
+                        <p>在这里你可以记录自己生活的点滴</p>
+                        <p>每个账号只每天只允许记录一次</p>
+                        <p>基于新一代公链星云链加密</p>
+                        <p>保证隐私,永远不可篡改</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer class="footer navbar-fixed-bottom ">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <h6 class="footer-title"><a href="#">MyDaily</a>基于星云链主网运行,永久保存你的记录!
+                </h6>
+                <p><img style="height:1.5rem;" src="image/nas.svg"></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
