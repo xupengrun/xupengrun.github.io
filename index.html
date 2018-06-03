@@ -7,11 +7,11 @@
     <meta name="keywords" content="<?= $site_keywords ?>">
     <meta name="description" content="<?= $site_description ?>">
     <meta name="author" content="<?= $site_name ?>">
-    <title>MyDaily</title>
+    <title>MyDiary</title>
     <!-- Loading Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/button.css" rel="stylesheet">
-    <link href="css/mydairy.css" rel="stylesheet">
+    <link href="css/mydiary.css" rel="stylesheet">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -39,19 +39,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <span class="navbar-brand titleColor"><b>MyDaily</b></span>
+            <span class="navbar-brand titleColor"><b>MyDiary</b></span>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav titleColor">
                 <li style="background-color: #eee;"><a href="./index.html" class="titleColor"><b>记录今天</b></a></li>
                 <li><a href="./search.html" class="titleColor"><b>查看过往</b></a></li>
+                <li><a href="./plaza.html" class="titleColor"><b>心情广场</b></a></li>
                 <li><a href="./about.html" class="titleColor"><b>关于</b></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
-<section id="account_book" style="margin-top:10px;padding-bottom: 10px;">
+<section id="account_book" style="margin-top:30px;padding-bottom: 10px;">
     <div class="container">
         <div style="text-align: center;">
             <h3 style="text-align: center;">记录一下今天的心情吧</h3>
@@ -65,22 +66,23 @@
                    <h5>看到现在的记录,会有不一样的感受!</h5>-->
 
         </div>
-        <div style="margin-bottom: 10px;margin-top: 100px">
+        <div style="margin-bottom: 10px;margin-top: 60px">
             <div class="row">
-                <div class="form-group;col-md-6">
-                    <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="col-lg-2"></div>
+                <div class="form-group;col-md-3">
+                    <div class="col-lg-2 col-md-4 col-sm-12">
                         <label class="control-label" for="title">标题</label>
                         <input type="text" id="title" class="form-control" placeholder="请输入标题">
                     </div>
                 </div>
-                <div class="form-group;col-md-6">
-                    <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group;col-md-3">
+                    <div class="col-lg-2 col-md-4 col-sm-12">
                         <label class="control-label" for="address">地点</label>
                         <input type="text" id="address" class="form-control" placeholder="请输入地点">
                     </div>
                 </div>
-                <div class="form-group;col-md-6">
-                    <div class=" col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group;col-md-3">
+                    <div class=" col-lg-2 col-md-4 col-sm-12">
                         <label for="mode" style="display: inline-block">心情</label>
                         <select class="form-control" id="mode">
                             <option value="开心">开心</option>
@@ -96,11 +98,22 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group;col-md-3">
+                    <div class=" col-lg-2 col-md-4 col-sm-12">
+                        <label for="privacy" style="display: inline-block">私密</label>
+                        <select class="form-control" id="privacy">
+                            <option value=0>私密</option>
+                            <option value=1>公开</option>
+                        </select>
+                    </div>
+                </div>
+
 
             </div>
             <div class="row" style="margin-top: 20px">
                 <div class="form-group">
-                    <div class="col-md-12">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-8">
                         <label for="content">内容</label>
                         <textarea class="form-control" id="content" cols="5" placeholder="字数限制200字"
                                   rows="10"></textarea>
@@ -126,7 +139,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <h6 class="footer-title"><a href="#">MyDaily</a>基于星云链主网运行,永久保存你的记录!
+                <h6 class="footer-title"><a href="#">MyDiary</a>基于星云链主网运行,永久保存你的记录!
                 </h6>
                 <p><img style="height:1.5rem;" src="image/nas.svg"></p>
             </div>

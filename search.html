@@ -11,21 +11,30 @@
     <!-- Loading Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/button.css" rel="stylesheet">
-    <link href="css/mydairy.css" rel="stylesheet">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <link href="css/mydiary.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootbox.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
     <script type="text/javascript" src="js/nebulas.js"></script>
-
     <script type="text/javascript" src="js/nebPay.js"></script>
+
 
 </head>
 <body>
 <style type="text/css">
     .navbar-toggle .icon-bar {
         background-color: #000;
+    }
+
+    .searchTitle {
+        margin-bottom: 30px;
+        color: #9ea7b4;
+        font-size: 20px;
+        font-family: "宋体", "Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif, FreeSans, Arimo;
+        font-weight: bold;
     }
 </style>
 <!-- Static navbar -->
@@ -39,12 +48,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <span class="navbar-brand titleColor"><b>MyDaily</b></span>
+            <span class="navbar-brand titleColor"><b>MyDiary</b></span>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav titleColor">
                 <li><a href="index.html" class="titleColor"><b>记录今天</b></a></li>
                 <li style="background-color: #eee;"><a href="search.html" class="titleColor"><b>查看过往</b></a></li>
+                <li><a href="./plaza.html" class="titleColor"><b>心情广场</b></a></li>
                 <li><a href="./about.html" class="titleColor"><b>关于</b></a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -54,53 +64,55 @@
 <section id="account_book" style="margin-top:10px;padding-bottom: 10px;">
     <div class="container">
         <div style="text-align: center;margin-top: 50px">
+            <div class="searchTitle">与过去的自己不期而遇</div>
             <div class="row">
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
                     <div class="input-group">
                         <input type="text" class="form-control" id="search" placeholder="请输入标题或者日期(格式如:2018-06-02)查询">
-                        <span class="input-group-btn"><button class="btn btn-default" id="searchButton"
-                                                              type="button">查询</button></span>
+                        <span class="input-group-btn"><button class="btn btn-default" id="searchButton" type="button">查询</button></span>
+                        <span class="input-group-btn"><button class="btn btn-default" id="randomButton1" type="button">随机</button></span>
                     </div><!-- /input-group -->
                 </div><!-- /.col-lg-6 -->
             </div>
-            <div id="tips" class="alert alert-warning" style="display: none">
-                <a href="#" class="close" data-dismiss="alert">
-                    &times;
-                </a>
-                "未查到相关内容,请尝试使用日期搜索:如 2018-06-02"
-            </div>
 
         </div>
-        <div id="contentCon" style="margin-bottom: 10px;margin-top: 100px;display: none">
-            <div class="row">
-                <div class="form-group;col-md-6">
-                    <div class="col-lg-3 col-md-4 col-sm-12">
-                        <label class="control-label" for="title">标题</label>
-                        <p id="title">币币涨了</p>
+        <div id="contentCon" style="margin-bottom: 10px;margin-top: 50px;display: none;">
+            <div class="row" style="margin-top: 20px;text-align: center;">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-2">
+                    <button class="btn btn-group-sm" id="preButton" type="button">上一篇</button>
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-group-sm" id="randomButton" type="button">随机</button>
+                </div><!-- /.col-lg-6 -->
+                <div class="col-lg-2">
+                    <button class="btn btn-group-sm" id="nextButton" type="button">下一篇</button>
+                </div>
+                <div class="col-lg-3"></div>
+
+            </div>
+            <div class="row" style="margin-top: 20px">
+                <div class="col-lg-3"></div>
+                <div class="form-group;col-md-2">
+                    <div class="col-lg-2 col-md-4 col-sm-12">
+
                     </div>
                 </div>
-                <div class="form-group;col-md-6">
-                    <div class="col-lg-3 col-md-4 col-sm-12">
-                        <label class="control-label" for="address">地点</label>
-                        <p id="address">广州市天河区</p>
-                    </div>
-                </div>
-                <div class="form-group;col-md-6">
-                    <div class=" col-lg-3 col-md-4 col-sm-12">
-                        <label for="mode">心情</label>
-                        <p id="mode">开心</p>
+                <div class="form-group;col-md-2">
+                    <div class=" col-lg-2 col-md-4 col-sm-12">
+
                     </div>
                 </div>
 
             </div>
             <div class="row">
                 <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="content">内容</label>
-                        <textarea class="form-control" id="content" cols="5" placeholder="无内容" rows="10"
-                                  readonly="readonly">本来今天高高兴兴
-                        </textarea>
+                    <div class="col-lg-3"></div>
+                    <div class="col-md-6 page">
+                        <h4 id="title" class="text-center title"></h4>
+                        <h6 id="info" class="text-right" style="color: #9ea7b4;margin-right: 10px"></h6>
+                        <p class="text-muted" id="content" style="margin-top: 20px"></p>
                     </div>
                 </div>
             </div>
@@ -157,11 +169,8 @@
             var result = resp.result;
 
             if (result === 'null') {
-                $("#contentCon").css("display","none");
-                $("#tips").css("display","block");
-                $('#content').text("未查到到内容,请尝试使用日期搜索:如 2018-06-02");
-                $('#title').text("");
-                $('#address').text("");
+                $('#title').text("该日无记录!");
+                $('#info').text("");
                 $('#mode').text("");
                 return;
             }
@@ -170,9 +179,11 @@
             $("#title").text(result.title);
             $('#content').text(result.content);
             $('#address').text(result.address);
-            $('#mode').text(result.mode);
-            $("#tips").css("display","none");
-            $("#contentCon").css("display","block");
+            $('#date').text(result.date);
+            $('#mode').text(result.mood);
+            $('#info').text(result.date+" "+result.address+" "+result.mood);
+            $("#tips").css("display", "none");
+            $("#contentCon").css("display", "block");
 
         }).catch(function (err) {
             console.log("error :" + err.message);
@@ -180,7 +191,19 @@
         })
 
     })
+    $('#search').datetimepicker({
+        language: 'zh-CN',
+        format: 'yyyy-mm-dd',
+        todayBtn: true,
+        autoclose: 1,
+        todayHighlight: true,
+        startView: 2,
+        minView: 2,
+        maxView: 'decade',
+        endDate: new Date()
+    });
 
 </script>
+
 </body>
 </html>
