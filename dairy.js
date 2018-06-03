@@ -9,6 +9,7 @@ var DiaryItem = function (text) {
         this.address = obj.address;
         this.date = obj.date;
     }
+
 };
 
 DiaryItem.prototype = {
@@ -18,6 +19,9 @@ DiaryItem.prototype = {
 };
 
 var TheDiary = function () {
+    LocalContractStorage.defineMapProperty(this, "arrayMap");
+    LocalContractStorage.defineMapProperty(this, "dataMap");
+    LocalContractStorage.defineProperty(this, "size");
     LocalContractStorage.defineMapProperty(this, "data", {
         parse: function (text) {
             return new DiaryItem(text);
@@ -30,7 +34,7 @@ var TheDiary = function () {
 
 TheDiary.prototype = {
     init: function () {
-
+        this.size = 0;
     },
 
     save: function (title, mode, address, content) {
@@ -65,6 +69,28 @@ TheDiary.prototype = {
             throw new Error("empty title")
         }
         return this.data.get(title);
+    },
+    len:function(){
+        return this.size;
+    },
+
+    forEach: function(limit, offset){
+        limit = parseInt(limit);
+        offset = parseInt(offset);
+        if(offset>this.size){
+            throw new Error("offset is not valid");
+        }
+        var number = offset+limit;
+        if(number > this.size){
+            number = this.size;
+        }
+        var result  = "";
+        for(var i=offset;i<number;i++){
+            var key = this.arrayMap.get(i);
+            var object = this.dataMap.get(key);
+            result += "index:"+i+" key:"+ key + " value:" +object+"_";
+        }
+        return result;
     }
 
 };
