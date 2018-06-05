@@ -22,7 +22,7 @@
     <script type="text/javascript" src="js/nebPay.js"></script>
 
 </head>
-<body>
+<body >
 <style type="text/css">
     .navbar-toggle .icon-bar {
         background-color: #000;
@@ -39,6 +39,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+
             <span class="navbar-brand titleColor"><b>MyDiary</b></span>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -52,10 +53,10 @@
     </div>
 </nav>
 
-<section id="account_book" style="margin-top:30px;padding-bottom: 10px;">
+<section id="account_book" style="margin-top:30px;padding-bottom: 10px;background-size:100%;background-image: url(/image/bg2.jpg);z-index: -1">
     <div class="container">
-        <div style="text-align: center;">
-            <h3 style="text-align: center;">记录一下今天的心情吧</h3>
+        <div style="text-align: center;line-height: 2em">
+            <h3 style="text-align: center;">记录一下今天的心情</h3>
             <h5>今天阳光不错</h5>
             <h5>吃了一顿好吃的</h5>
             <h5>见到了喜欢的人</h5>
@@ -66,69 +67,97 @@
                    <h5>看到现在的记录,会有不一样的感受!</h5>-->
 
         </div>
-        <div style="margin-bottom: 10px;margin-top: 60px">
-            <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="form-group;col-md-3">
-                    <div class="col-lg-2 col-md-4 col-sm-12">
-                        <label class="control-label" for="title">标题</label>
-                        <input type="text" id="title" class="form-control" placeholder="请输入标题">
-                    </div>
-                </div>
-                <div class="form-group;col-md-3">
-                    <div class="col-lg-2 col-md-4 col-sm-12">
-                        <label class="control-label" for="address">地点</label>
-                        <input type="text" id="address" class="form-control" placeholder="请输入地点">
-                    </div>
-                </div>
-                <div class="form-group;col-md-3">
-                    <div class=" col-lg-2 col-md-4 col-sm-12">
-                        <label for="mode" style="display: inline-block">心情</label>
-                        <select class="form-control" id="mode">
-                            <option value="开心">开心</option>
-                            <option value="郁闷">郁闷</option>
-                            <option value="沮丧">沮丧</option>
-                            <option value="平静">平静</option>
-                            <option value="兴奋">兴奋</option>
-                            <option value="失落">失落</option>
-                            <option value="孤独">孤独</option>
-                            <option value="抓狂">抓狂</option>
-                            <option value="幸福">幸福</option>
-                            <option value="迷茫">迷茫</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group;col-md-3">
-                    <div class=" col-lg-2 col-md-4 col-sm-12">
-                        <label for="privacy" style="display: inline-block">私密</label>
-                        <select class="form-control" id="privacy">
-                            <option value=0>私密</option>
-                            <option value=1>公开</option>
-                        </select>
-                    </div>
-                </div>
 
-
-            </div>
-            <div class="row" style="margin-top: 20px">
-                <div class="form-group">
-                    <div class="col-lg-2"></div>
-                    <div class="col-md-8">
-                        <label for="content">内容</label>
-                        <textarea class="form-control" id="content" cols="5" placeholder="字数限制200字"
-                                  rows="10"></textarea>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 700px" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">记录此刻</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom: 10px;">
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="form-group;col-md-3">
+                                <div class="col-lg-5 col-md-6 col-sm-12">
+                                    <label class="control-label" for="title">标题</label>
+                                    <input type="text" id="title" class="form-control" placeholder="请输入标题">
+                                </div>
+                            </div>
+                            <div class="form-group;col-md-3">
+                                <div class="col-lg-5 col-md-6 col-sm-12">
+                                    <label class="control-label" for="address">地点</label>
+                                    <input type="text" id="address" class="form-control" placeholder="请输入地点">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="form-group;col-md-3">
+                                <div class=" col-lg-5 col-md-6 col-sm-12">
+                                    <label for="mode" style="display: inline-block">心情</label>
+                                    <select class="form-control" id="mode">
+                                        <option value="开心">开心</option>
+                                        <option value="郁闷">郁闷</option>
+                                        <option value="沮丧">沮丧</option>
+                                        <option value="平静">平静</option>
+                                        <option value="兴奋">兴奋</option>
+                                        <option value="失落">失落</option>
+                                        <option value="孤独">孤独</option>
+                                        <option value="抓狂">抓狂</option>
+                                        <option value="幸福">幸福</option>
+                                        <option value="迷茫">迷茫</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group;col-md-3">
+                                <div class=" col-lg-5 col-md-6 col-sm-12">
+                                    <label for="privacy" style="display: inline-block">私密</label>
+                                    <select class="form-control" id="privacy">
+                                        <option value=0>私密</option>
+                                        <option value=1>公开</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 20px">
+                            <div class="form-group">
+                                <div class="col-lg-1"></div>
+                                <input type="hidden" id="account">
+                                <div class="col-lg-10 col-md-12 col-sm-12">
+                                    <label for="content">内容</label>
+                                    <textarea class="form-control" id="content" cols="5" placeholder="字数限制200字"
+                                              rows="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="button  button-primary button-rounded" data-dismiss="modal">取消</button>
+                    <button type="button" class="button  button-primary button-rounded" id="dairyCommit">发布到星云链</button>
                 </div>
             </div>
         </div>
     </div>
+
 </section>
 
 <section id="banner" style="margin-bottom:100px;padding-bottom: 10px;">
     <div class="container">
         <div class="row">
             <div class="col-sm-12" style="text-align: center">
-                <a class="button button-3d button-primary button-rounded" id="dairyCommit">发布到星云链</a>
+                <!--<a class="button button-3d button-primary button-rounded" id="dairyCommit">发布到星云链</a>-->
+            </div>
+        </div>
+    </div>    <div class="container">
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center">
+                <a class="button button-3d button-primary button-rounded" id="modal" data-toggle="modal" data-target="#myModal">记录此刻</a>
             </div>
         </div>
     </div>
@@ -159,6 +188,7 @@
     var serialNumber
 
     function checkContent() {
+
         var from = dappContactAddress
         var value = "0";
         var nonce = "0"
@@ -190,7 +220,10 @@
 
 
     $('#dairyCommit').click(function () {
-        if (!$("#title").val() || !$("#address").val() || !$("#content").val() || !$("#mode").val()) {
+        if (!$("#account").val()) {
+            alert('请安装钱包');
+        }
+        if (!$("#title").val() || !$("#address").val() || !$("#content").val() || !$("#mode").val() || !$("#privacy").val()) {
             alert('标题或者文本不能为空');
             return;
         }
@@ -198,7 +231,7 @@
         var to = dappContactAddress;
         var value = "0";
         var callFunction = "save";
-        var callArgs = "[\"" + $("#title").val() + "\",\"" + $("#mode").val() + "\",\"" + $("#address").val() + "\",\"" + $("#content").val() + "\"]";
+        var callArgs = "[\"" + $("#title").val() + "\",\"" + $("#mode").val() + "\",\"" + $("#address").val() + "\",\"" + $("#content").val() + "\",\"" + $("#account").val() + "\",\"" + $("#privacy").val() + "\"]";
         console.log(callArgs);
 
         serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
@@ -229,6 +262,32 @@
         return fmt;
     };
 
+    // listen message from contentscript
+    window.addEventListener('message', function (e) {
+        // e.detail contains the transferred data (can
+        console.log("recived by page:" + e + ", e.data:" + JSON.stringify(e.data));
+        if (!!e.data.data.account) {
+            $("#account").val(e.data.data.account);
+        }
+        if (!!e.data.data.txhash) {
+            document.getElementById("txResult").innerHTML = "Transaction hash\n" + JSON.stringify(e.data.data.txhash, null, '\t');
+        }
+        if (!!e.data.data.receipt) {
+            document.getElementById("txResult").innerHTML = "Transaction Receipt\n" + JSON.stringify(e.data.data.receipt, null, '\t');
+        }
+        if (!!e.data.data.neb_call) {
+            document.getElementById("txResult").innerHTML = "return of call\n" + JSON.stringify(e.data.data.neb_call, null, '\t');
+        }
+    });
+    $(function () {
+        console.log("********* send transaction *****************")
+        //var from = document.getElementById("inputAccountAddress").value
+        window.postMessage({
+            "target": "contentscript",
+            "data": {},
+            "method": "getAccount",
+        }, "*");
+    })
 </script>
 </body>
 </html>

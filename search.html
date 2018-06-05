@@ -157,7 +157,54 @@
         var gas_price = "1000000"
         var gas_limit = "2000000"
         var callFunction = "get";
-        var callArgs = "[\"" + $("#search").val() + "\"]";
+        var callArgs = "[\"" + $("#search").val() +"\",\"" + $("#account").val()+ "\"]";
+        console.log(callArgs);
+        var contract = {
+            "function": callFunction,
+            "args": callArgs
+        }
+
+
+        neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+            var result = resp.result;
+
+            if (result === 'null') {
+                $('#title').text("该日无记录!");
+                $('#info').text("");
+                $('#mode').text("");
+                return;
+            }
+            console.log(result);
+            result = JSON.parse(result);
+            $("#title").text(result.title);
+            $('#content').text(result.content);
+            $('#address').text(result.address);
+            $('#date').text(result.date);
+            $('#mode').text(result.mood);
+            $('#info').text(result.date+" "+result.address+" "+result.mood);
+            $("#tips").css("display", "none");
+            $("#contentCon").css("display", "block");
+
+        }).catch(function (err) {
+            console.log("error :" + err.message);
+
+        })
+
+    })
+    $("#randomButton").click(function () {
+        if (!$("#search").val()) {
+            alert('搜索内容不能为空');
+            return;
+        }
+
+        $('#content').text("");
+        var from = dappContactAddress
+        var value = "0";
+        var nonce = "0"
+        var gas_price = "1000000"
+        var gas_limit = "2000000"
+        var callFunction = "randomGet";
+        var callArgs = "[\"" + $("#account").val() + "\"]";
         console.log(callArgs);
         var contract = {
             "function": callFunction,

@@ -12,6 +12,7 @@ var DiaryItem = function (text) {
 
 };
 
+
 DiaryItem.prototype = {
     toString: function () {
         return JSON.stringify(this)
@@ -19,8 +20,16 @@ DiaryItem.prototype = {
 };
 
 var TheDiary = function () {
+    LocalContractStorage.defineMapProperty(this, "accountMap",{
+        parse: function (text) {
+            return JSON.parse(text);
+        },
+        stringify: function (o) {
+            return JSON.stringify(o);
+        }
+    });
+    LocalContractStorage.defineMapProperty(this, "openPrivacyMap");
     LocalContractStorage.defineMapProperty(this, "arrayMap");
-    LocalContractStorage.defineMapProperty(this, "dataMap");
     LocalContractStorage.defineProperty(this, "size");
     LocalContractStorage.defineMapProperty(this, "data", {
         parse: function (text) {
@@ -35,11 +44,15 @@ var TheDiary = function () {
 TheDiary.prototype = {
     init: function () {
         this.size = 0;
+        this.openPrivacySize = 0;
     },
 
-    save: function (title, mode, address, content) {
+    save: function (title, mode, address, content, account, privacy) {
         if (!title || !content || !mode || !address) {
             throw new Error("empty title or content")
+        }
+        if (!account) {
+            throw new Error("empty account")
         }
 
         if (title.length > 20 || content.length > 500 || address.length > 50 || mode.length > 10) {
@@ -47,48 +60,122 @@ TheDiary.prototype = {
         }
         var date = new Date().Format("yyyy-MM-dd")
         var from = Blockchain.transaction.from;
-        var diaryItem = this.data.get(date);
+
+        this.size += 1;
+        this.diaryItem = new DiaryItem();
+        this.diaryItem.author = from;
+        this.diaryItem.title = title;
+        this.diaryItem.content = content;
+        this.diaryItem.date = date;
+        this.diaryItem.mode = mode;
+        this.diaryItem.address = address;
+        //从账户map取出用户内容
+        var accountObj = this.accountMap.get(account);
+        //用户内容index 数组,用于遍历
+        var indexs = []
+        var indexsMap = {};
+        if (accountObj === null) {
+            accountObj = [];
+            accountObj.push(indexs);
+            accountObj.push(indexsMap);
+
+        }
+        indexs = accountObj[0];
+        indexsMap = accountObj[1];
+        if (indexs === null) {
+            indexs = [];
+        }
+        if (indexsMap === null) {
+            indexsMap = {};
+        }
+        var diaryItem = this.arrayMap.get(indexsMap[date]);
         if (diaryItem) {
             throw new Error("You can record only once a day");
         }
+        indexs.push(this.size);
+        //将日期保存
+        indexsMap[date] = diaryItem;
 
-        diaryItem = new DiaryItem();
-        diaryItem.author = from;
-        diaryItem.title = title;
-        diaryItem.content = content;
-        diaryItem.date = date;
-        diaryItem.mode = mode;
-        diaryItem.address = address;
-
-        this.data.put(date, diaryItem);
-        this.data.put(title, diaryItem);
-    },
-
-    get: function (title) {
-        if (!title) {
-            throw new Error("empty title")
+        privacy = parseInt(privacy);
+        this.arrayMap.put(this.size, diaryItem);
+        //公开的日记,保存索引
+        if (privacy === 1) {
+            this.openPrivacySize += 1;
+            this.openPrivacyMap.put(this.openPrivacySize, this.size);
         }
-        return this.data.get(title);
+        this.accountMap.put(accountObj);
+        return accountObj;
     },
-    len:function(){
+
+    get: function (date, account) {
+        if (!date || !account) {
+            throw new Error("empty date or account")
+        }
+        var accountObj = this.accountMap.get(account);
+        if (accountObj === null) {
+            throw new Error("account has no data");
+        }
+        var indexsMap = accountObj.get[1];
+        return this.arrayMap.get(indexsMap[date]);
+    },
+    randomGet: function (account) {
+        if (!account) {
+            throw new Error("empty account")
+        }
+        var accountObj = this.accountMap.get(account);
+        if (accountObj === null) {
+            throw new Error("account has no data");
+        }
+        var indexs = accountObj.get[0];
+        var randomIndex = parseInt(indexs.length * Math.random())
+        return this.arrayMap.get(indexs[randomIndex]);
+    },
+    len: function () {
         return this.size;
     },
-
-    forEach: function(limit, offset){
+    openLen: function () {
+        return this.openPrivacySize;
+    },
+    //遍历个人日记记录
+    forEachAccount: function (limit, offset, account) {
+        var accountObj = this.accountMap.get(account);
+        var indexs = accountObj.get[0];
         limit = parseInt(limit);
         offset = parseInt(offset);
-        if(offset>this.size){
+        if (accountObj === null) {
+            throw new Error("account has no data");
+        }
+        if (offset > indexs.length) {
             throw new Error("offset is not valid");
         }
-        var number = offset+limit;
-        if(number > this.size){
-            number = this.size;
+        var number = offset + limit;
+        if (number > indexs.length) {
+            number = indexs.length;
         }
-        var result  = "";
-        for(var i=offset;i<number;i++){
-            var key = this.arrayMap.get(i);
-            var object = this.dataMap.get(key);
-            result += "index:"+i+" key:"+ key + " value:" +object+"_";
+        var result = "";
+        for (var i = offset; i < number; i++) {
+            var key = indexs.get(i);
+            var object = this.arrayMap.get(key);
+            result += "index:" + i + " key:" + key + " value:" + object + "_";
+        }
+        return result;
+    },
+    //遍历所有公开的日记
+    forEachOpen: function (limit, offset) {
+        limit = parseInt(limit);
+        offset = parseInt(offset);
+        if (offset > this.openPrivacySize) {
+            throw new Error("offset is not valid");
+        }
+        var number = offset + limit;
+        if (number > this.openPrivacySize) {
+            number = this.openPrivacySize;
+        }
+        var result = "";
+        for (var i = offset; i < number; i++) {
+            var key = this.openPrivacyMap.get(i);
+            var object = this.arrayMap.get(key);
+            result += "index:" + i + " key:" + key + " value:" + object + "_";
         }
         return result;
     }
