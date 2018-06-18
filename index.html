@@ -85,76 +85,80 @@
         </div>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" style="width: 700px" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">记录此刻</h4>
-                </div>
-                <div class="modal-body">
-                    <div style="margin-bottom: 10px;">
-                        <div class="row">
-                            <div class="col-lg-1"></div>
-                            <div class="form-group col-md-3  col-sm-6">
-                                <div class="col-lg-5 col-md-6 col-sm-6">
-                                    <label class="control-label" for="title">标题</label>
-                                    <input type="text" id="title" class="form-control" placeholder="请输入标题">
-                                    <input type="hidden" id="account">
+        <div class="modal-dialog" role="document">
+            <div class="row" >
+                <div class="modal-content col-lg-10 col-md-10  col-sm-10">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">记录此刻</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 10px;">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1  col-sm-1"></div>
+                                <div class="form-group col-md-5  col-sm-5">
+                                    <div>
+                                        <label class="control-label" for="title">标题</label>
+                                        <input type="text" id="title" class="form-control" placeholder="请输入标题">
+                                        <input type="hidden" id="account">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-5 col-sm-5">
+                                    <div>
+                                        <label class="control-label" for="address">地点</label>
+                                        <input type="text" id="address" class="form-control" placeholder="请输入地点">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group;col-md-3;col-sm-6">
-                                <div class="col-lg-5 col-md-6 col-sm-6">
-                                    <label class="control-label" for="address">地点</label>
-                                    <input type="text" id="address" class="form-control" placeholder="请输入地点">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1  col-sm-1"></div>
+                                <div class="form-group col-md-5 col-sm-5">
+                                    <div>
+                                        <label for="mood" style="display: inline-block">心情</label>
+                                        <select class="form-control" id="mood">
+                                            <option value="开心">开心</option>
+                                            <option value="郁闷">郁闷</option>
+                                            <option value="沮丧">沮丧</option>
+                                            <option value="平静">平静</option>
+                                            <option value="兴奋">兴奋</option>
+                                            <option value="失落">失落</option>
+                                            <option value="孤独">孤独</option>
+                                            <option value="抓狂">抓狂</option>
+                                            <option value="幸福">幸福</option>
+                                            <option value="迷茫">迷茫</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-5 col-sm-5">
+                                    <div>
+                                        <label for="privacy" style="display: inline-block">私密</label>
+                                        <select class="form-control" id="privacy">
+                                            <option value=0>私密</option>
+                                            <option value=1>公开</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-1"></div>
-                            <div class="form-group col-md-3 col-sm-6">
-                                <div class=" col-lg-5 col-md-6 col-sm-12">
-                                    <label for="mood" style="display: inline-block">心情</label>
-                                    <select class="form-control" id="mood">
-                                        <option value="开心">开心</option>
-                                        <option value="郁闷">郁闷</option>
-                                        <option value="沮丧">沮丧</option>
-                                        <option value="平静">平静</option>
-                                        <option value="兴奋">兴奋</option>
-                                        <option value="失落">失落</option>
-                                        <option value="孤独">孤独</option>
-                                        <option value="抓狂">抓狂</option>
-                                        <option value="幸福">幸福</option>
-                                        <option value="迷茫">迷茫</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group;col-md-3">
-                                <div class=" col-lg-5 col-md-6 col-sm-6">
-                                    <label for="privacy" style="display: inline-block">私密</label>
-                                    <select class="form-control" id="privacy">
-                                        <option value=0>私密</option>
-                                        <option value=1>公开</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 20px">
-                            <div class="form-group">
-                                <div class="col-lg-1"></div>
-                                <div class="col-lg-10 col-md-12 col-sm-12">
-                                    <label for="content">内容</label>
-                                    <textarea class="form-control" id="content" cols="5" placeholder="字数限制500字"
-                                              rows="10"></textarea>
+                            <div class="row" style="margin-top: 20px">
+                                <div class="col-lg-1 col-md-1  col-sm-1 "></div>
+                                <div class="form-group col-md-10 col-sm-10">
+                                    <div>
+                                        <label for="content">内容</label>
+                                        <textarea class="form-control" id="content" cols="5" placeholder="字数限制500字"
+                                                  rows="10"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="button  button-primary button-rounded" data-dismiss="modal">取消</button>
-                    <button type="button" class="button  button-primary button-rounded" id="dairyCommit">发布到星云链</button>
+                    <div class="modal-footer">
+                        <button type="button" class="button  button-primary button-rounded" data-dismiss="modal">取消
+                        </button>
+                        <button type="button" class="button  button-primary button-rounded" id="dairyCommit">发布到星云链
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
