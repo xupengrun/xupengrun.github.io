@@ -1348,6 +1348,9 @@
     background-color: rgba(214,191,160,0.4);
 
 }
+.navbarBackground{
+    background:rgba(238,238,238,0.5);
+}
 
 .title {
     margin: 21px 0;
