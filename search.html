@@ -23,7 +23,7 @@
 
 
 </head>
-<body>
+<body class="body-bg1">
 <style type="text/css">
     .navbar-toggle .icon-bar {
         background-color: #000;
@@ -31,10 +31,21 @@
 
     .searchTitle {
         margin-bottom: 30px;
-        color: #9ea7b4;
-        font-size: 20px;
-        font-family: "宋体", "Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif, FreeSans, Arimo;
+        color: #3091f2;
+        font-size: 30px;
+        font-family: "qingxia", "Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif, FreeSans, Arimo;
         font-weight: bold;
+    }
+
+    .diaryTitle {
+        margin-bottom: 16px;
+        font-size: 18px;
+        font-family: "qingxia", "Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif, FreeSans, Arimo;
+    }
+
+    .diaryContent {
+        font-size: 14px;
+        font-family: "qingxia", "Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif, FreeSans, Arimo;
     }
 </style>
 <!-- Static navbar -->
@@ -64,36 +75,38 @@
 <section id="account_book" style="margin-top:10px;padding-bottom: 10px;">
     <div class="container">
         <div style="text-align: center;margin-top: 50px">
-            <div class="searchTitle">与过去的自己不期而遇</div>
+            <div class="searchTitle">与过去的自己不期而遇..</div>
             <div class="row">
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
                     <div class="input-group">
+                        <!--  <span class="input-group-btn"><button class="btn btn-default" id="preButton" type="button">上一篇</button></span>
+                          <span class="input-group-btn"><button class="btn btn-default" id="nextButton" type="button">下一篇</button></span>-->
                         <input type="text" class="form-control" id="search" placeholder="请输入标题或者日期(格式如:2018-06-02)查询">
-                        <span class="input-group-btn"><button class="btn btn-default" id="searchButton" type="button">查询</button></span>
-                        <span class="input-group-btn"><button class="btn btn-default" id="randomButton1" type="button">随机</button></span>
+                        <span class="input-group-btn"><button class="btn btn-default" id="searchButton"
+                                                              type="button">查询</button></span>
+                        <span class="input-group-btn"><button class="btn btn-default" id="randomButton"
+                                                              type="button">随机</button></span>
+                        <input type="hidden" id="account">
                     </div><!-- /input-group -->
                 </div><!-- /.col-lg-6 -->
             </div>
 
         </div>
         <div id="contentCon" style="margin-bottom: 10px;margin-top: 50px;display: none;">
-            <div class="row" style="margin-top: 20px;text-align: center;">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-2">
-                    <button class="btn btn-group-sm" id="preButton" type="button">上一篇</button>
-                </div>
-                <div class="col-lg-2">
-                    <button class="btn btn-group-sm" id="randomButton" type="button">随机</button>
-                </div><!-- /.col-lg-6 -->
-                <div class="col-lg-2">
-                    <button class="btn btn-group-sm" id="nextButton" type="button">下一篇</button>
-                </div>
-                <div class="col-lg-3"></div>
+            <!--            <div class="row" style="margin-top: 20px;text-align: center;">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <button class="btn btn-group-sm" id="preButton" type="button">上一篇</button>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <button class="btn btn-group-sm" id="nextButton" type="button">下一篇</button>
+                            </div>
+                            <div class="col-lg-3"></div>
 
-            </div>
+                        </div>-->
             <div class="row" style="margin-top: 20px">
-                <div class="col-lg-3"></div>
+                <div class="col-lg-3 "></div>
                 <div class="form-group;col-md-2">
                     <div class="col-lg-2 col-md-4 col-sm-12">
 
@@ -110,9 +123,14 @@
                 <div class="form-group">
                     <div class="col-lg-3"></div>
                     <div class="col-md-6 page">
-                        <h4 id="title" class="text-center title"></h4>
+                        <span style="margin-left: 30px;color:#3091f2;display: inline-block;float: left"><a
+                                id="preButton" href="#">上一篇</a></span>
+                        <span style="margin-right: 30px;color:#3091f2;display: inline-block;float: right"><a
+                                id="nextButton" href="#">下一篇</a></span>
+                        <h4 id="title" class="text-center title diaryTitle"></h4>
+                        <input type="hidden" id="id">
                         <h6 id="info" class="text-right" style="color: #9ea7b4;margin-right: 10px"></h6>
-                        <p class="text-muted" id="content" style="margin-top: 20px"></p>
+                        <p class="text-muted diaryContent" id="content" style="margin-top: -4px"></p>
                     </div>
                 </div>
             </div>
@@ -135,109 +153,79 @@
 
 <script>
     "use strict";
-    var dappContactAddress = "n1jJPsQDxGmasMhwv8yyWJyUGhzEaYQs3xE";
-    var nebulas = require("nebulas"), Account = Account, neb = new nebulas.Neb();
-    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"))
-
-
+    var dappContactAddress = "n1qnMMZQD76XnbZ4gAkiGJArE9XMVN9Zeqj";
+    var nebulas = require("nebulas"), Account = nebulas.Account, neb = new nebulas.Neb();
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+    //    neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+    //    neb.setRequest(new nebulas.HttpRequest("http://localhost:8685"))
     var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
-    var nebPay = new NebPay();
-    var serialNumber
 
-    $("#searchButton").click(function () {
-        if (!$("#search").val()) {
-            alert('搜索内容不能为空');
-            return;
-        }
 
-        $('#content').text("");
-        var from = dappContactAddress
+    function getRandomDiary() {
+        var from = $("#account").val();
         var value = "0";
-        var nonce = "0"
-        var gas_price = "1000000"
-        var gas_limit = "2000000"
-        var callFunction = "get";
-        var callArgs = "[\"" + $("#search").val() +"\",\"" + $("#account").val()+ "\"]";
-        console.log(callArgs);
-        var contract = {
-            "function": callFunction,
-            "args": callArgs
-        }
-
-
-        neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
-            var result = resp.result;
-
-            if (result === 'null') {
-                $('#title').text("该日无记录!");
-                $('#info').text("");
-                $('#mode').text("");
-                return;
-            }
-            console.log(result);
-            result = JSON.parse(result);
-            $("#title").text(result.title);
-            $('#content').text(result.content);
-            $('#address').text(result.address);
-            $('#date').text(result.date);
-            $('#mode').text(result.mood);
-            $('#info').text(result.date+" "+result.address+" "+result.mood);
-            $("#tips").css("display", "none");
-            $("#contentCon").css("display", "block");
-
-        }).catch(function (err) {
-            console.log("error :" + err.message);
-
-        })
-
-    })
-    $("#randomButton").click(function () {
-        if (!$("#search").val()) {
-            alert('搜索内容不能为空');
-            return;
-        }
-
-        $('#content').text("");
-        var from = dappContactAddress
-        var value = "0";
-        var nonce = "0"
+        var nonce = "3"
         var gas_price = "1000000"
         var gas_limit = "2000000"
         var callFunction = "randomGet";
-        var callArgs = "[\"" + $("#account").val() + "\"]";
+        var callArgs = "[]";
         console.log(callArgs);
         var contract = {
             "function": callFunction,
             "args": callArgs
-        }
-
-
+        };
         neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
-            var result = resp.result;
-
-            if (result === 'null') {
-                $('#title').text("该日无记录!");
-                $('#info').text("");
-                $('#mode').text("");
-                return;
-            }
-            console.log(result);
-            result = JSON.parse(result);
-            $("#title").text(result.title);
-            $('#content').text(result.content);
-            $('#address').text(result.address);
-            $('#date').text(result.date);
-            $('#mode').text(result.mood);
-            $('#info').text(result.date+" "+result.address+" "+result.mood);
-            $("#tips").css("display", "none");
-            $("#contentCon").css("display", "block");
-
+            var result = JSON.parse(resp.result);
+            process_result(result);
         }).catch(function (err) {
             console.log("error :" + err.message);
 
         })
+    };
 
-    })
+    function getRelativeDiary(id, position) {
+        var from = $("#account").val();
+        var value = "0";
+        var nonce = "0";
+        var gas_price = "1000000";
+        var gas_limit = "2000000";
+        var callFunction = "relativeGet";
+        var callArgs = "[\"" + id + "\",\"" + position + "\"]";
+        console.log(callArgs);
+        var contract = {
+            "function": callFunction,
+            "args": callArgs
+        };
+        neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+            var result = JSON.parse(resp.result);
+            process_result(result);
+        }).catch(function (err) {
+            console.log("error :" + err.message);
+
+        })
+    };
+
+    function process_result(result) {
+        if (result.statusCode === 1) {
+            $('#title').text(result.message);
+            $('#info').text("");
+            $('#mood').text("");
+            $("#tips").css("display", "none");
+            $('#content').text("");
+            $("#contentCon").css("display", "block");
+            return;
+        }
+        console.log(result);
+        $("#id").val(result.data[0].id);
+        $("#title").text(result.data[0].title);
+        $('#content').text(result.data[0].content);
+        $('#address').text(result.data[0].address);
+        $('#date').text(result.data[0].date);
+        $('#mood').text(result.data[0].mood);
+        $('#info').text(result.data[0].date + " " + result.data[0].address + " " + result.data[0].mood);
+        $("#tips").css("display", "none");
+        $("#contentCon").css("display", "block");
+    };
     $('#search').datetimepicker({
         language: 'zh-CN',
         format: 'yyyy-mm-dd',
@@ -249,6 +237,70 @@
         maxView: 'decade',
         endDate: new Date()
     });
+    // listen message from contentscript
+    window.postMessage({
+        "target": "contentscript",
+        "data": {},
+        "method": "getAccount",
+    }, "*");
+    window.addEventListener('message', function (e) {
+        // e.detail contains the transferred data (can
+        console.log("recived by page:" + e + ", e.data:" + JSON.stringify(e.data));
+        if (!!e.data.data.account) {
+            $("#account").val(e.data.data.account);
+        }
+        if (!!e.data.data.txhash) {
+            document.getElementById("txResult").innerHTML = "Transaction hash\n" + JSON.stringify(e.data.data.txhash, null, '\t');
+        }
+        if (!!e.data.data.receipt) {
+            document.getElementById("txResult").innerHTML = "Transaction Receipt\n" + JSON.stringify(e.data.data.receipt, null, '\t');
+        }
+        if (!!e.data.data.neb_call) {
+            document.getElementById("txResult").innerHTML = "return of call\n" + JSON.stringify(e.data.data.neb_call, null, '\t');
+        }
+    });
+    $(function () {
+        console.log("********* send transaction *****************")
+        //var from = document.getElementById("inputAccountAddress").value
+        $("#preButton").click(function () {
+            getRelativeDiary($("#id").val(), -1);
+        });
+        $("#nextButton").click(function () {
+            getRelativeDiary($("#id").val(), 1);
+        });
+        $("#searchButton").click(function () {
+            if (!$("#search").val()) {
+                alert('搜索内容不能为空');
+                return;
+            }
+            $('#content').text("");
+            var from = $("#account").val();
+            var value = "0";
+            var nonce = "3";
+            var gas_price = "1000000";
+            var gas_limit = "2000000";
+            var callFunction = "getOneDiary";
+            var callArgs = "[\"" + $("#search").val() + "\"]";
+            console.log(callArgs);
+            var contract = {
+                "function": callFunction,
+                "args": callArgs
+            }
+            neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+                var result = JSON.parse(resp.result);
+                process_result(result);
+
+            }).catch(function (err) {
+                console.log("error :" + err.message);
+
+            })
+
+        })
+        $("#randomButton").click(function () {
+            getRandomDiary();
+        });
+    });
+
 
 </script>
 

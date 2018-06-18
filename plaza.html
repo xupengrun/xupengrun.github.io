@@ -12,16 +12,16 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/button.css" rel="stylesheet">
     <link href="css/mydiary.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootbox.min.js"></script>
     <script type="text/javascript" src="js/nebulas.js"></script>
-
     <script type="text/javascript" src="js/nebPay.js"></script>
 </head>
-<body>
+<body class="body-bg1">
 <style type="text/css">
     .navbar-toggle .icon-bar {
         background-color: #000;
@@ -45,33 +45,54 @@
                 <li><a href="index.html" class="titleColor"><b>记录今天</b></a></li>
                 <li><a href="search.html" class="titleColor"><b>查看过往</b></a></li>
                 <li><a href="./plaza.html" style="background-color: #eee;" class="titleColor"><b>心情广场</b></a></li>
-                <li ><a href="./about.html" class="titleColor"><b>关于</b></a></li>
+                <li><a href="./about.html" class="titleColor"><b>关于</b></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
+<section style="margin-top:10px;padding-bottom: 10px;text-align: center">
+    <button id="nextDiary" href="#" class="button button-raised button-primary button-glow button-pill"><i
+            class="glyphicon glyphicon-refresh"></i> 换一批
+    </button>
+    <input type="hidden" id="offset" value=0>
+    <input type="hidden" id="limit" value=9>
+    <input type="hidden" id="account">
 
+</section>
 <section id="account_book" style="margin-top:10px;padding-bottom: 10px;">
-    <div class="container">
-        <div id="contentCon" style="margin-bottom: 10px;margin-top: 50px">
-            <div id="info" class="portfolio" style="padding:4em 0 1.5em 0">
-                <div class="container" style="text-align: center">
-                <img src="image/mydiary.png" height="200px" width="200px">
-                    <h3>Today Is A New Day</h3>
-                </div>
-            </div>
-            <div class="features" style="padding: 1.5em 0">
-                <div class="container">
-                    <div style="text-align: center;line-height: 2em;font-size: 14px">
-                        <p>MyDiary是一个基于星云链的日记网站</p>
-                        <p>记录生活的点滴</p>
-                        <p>喜.怒.哀.乐</p>
-                        <p>每个账号每天只允许记录一次</p>
-                        <p>公开的日记会随机出现在心情广场</p>
-                    </div>
 
+    <style type="text/css">
+        .container .items {
+            border: 1px solid #EEEEEE;
+            padding: 10px;
+            margin-bottom: 15px;
+            height: 250px;
+        }
+    </style>
+    <div class="container ">
+        <div class="row" id="list">
+            <!--<div class="col-lg-4 col-md-4">
+                <div class="items text-center pageCard diaryFont">
+                    <div style="margin-top: 2px;"><span>今天不开心</span>
+                    </div>
+                    <div style="text-align: center;margin-top: 10px;height: 180px">
+                        <p style="font-size: small"> 大时代阿斯蒂芬</p>
+                    </div>
+                    <div class="diaryFont address"
+                         data-container="body" data-toggle="popover" data-placement="top"
+                         data-content="from: xafasdfasdfsdf" style="font-size: smaller;text-align: right"><span
+                            style='display: inline-block;float: left'><i
+                            class='glyphicon glyphicon-user'></i> ：开心</span><span><i
+                            class='glyphicon glyphicon-time'></i> 2018-06-18</span> <span><i
+                            class='glyphicon glyphicon-map-marker'></i> 广州市天河区</span></div>
+
+                    &lt;!&ndash;  <div style="font-size: smaller;text-align: right"><span>2018-06-18</span> <span class="address">广州市天河区</span>
+                      </div>&ndash;&gt;
+                    &lt;!&ndash;                    <div style="font-size: smaller;text-align: left;white-space: nowrap;-o-text-overflow:ellipsis;text-overflow: ellipsis;">
+                                            <span style="font-weight: bold">From:</span> <span style="overflow: hidden">n1ZY3rkc7skCihD8aa26oUmAEtACdDYF6r6</span>
+                                        </div>&ndash;&gt;
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </section>
@@ -89,5 +110,142 @@
     </div>
 </footer>
 
+<script>
+    "use strict";
+    var dappContactAddress = "n1qnMMZQD76XnbZ4gAkiGJArE9XMVN9Zeqj";
+    var nebulas = require("nebulas"), Account = nebulas.Account, neb = new nebulas.Neb();
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+    function process_result(result) {
+        if (result.statusCode === 1) {
+            $('#title').text(result.message);
+            $('#info').text("");
+            $('#mood').text("");
+            $("#tips").css("display", "none");
+            $('#content').text("");
+            $("#contentCon").css("display", "block");
+            return;
+        }
+        let datas = result.data;
+        for (let index in datas) {
+            let id = datas[index].id;
+            let account = id.split("-")[0];
+            let title = datas[index].title;
+            let content = datas[index].content;
+            let address = datas[index].address;
+            let date = datas[index].date;
+            let mood = datas[index].mood;
+            let info = datas[index].date + " " + datas[index].address;
+            let parent = $("#list");
+            let ele = document.createElement("div");
+            ele.innerHTML = "<div class=\"col-lg-4 col-md-4\">\n" +
+                "                <div class=\"items text-center pageCard diaryFont\">\n" +
+                "                    <div style=\"margin-top: 2px;\"><span>" + title + "</span>\n" +
+                "                    </div>\n" +
+                "                    <div style=\"text-align: center;margin-top: 10px;height: 180px\">\n" +
+                "                        <p style=\"font-size: small\"> " + content + "</p>\n" +
+                "                    </div>\n" +
+                "                    <div class=\"diaryFont address\"\n" +
+                "                         data-container=\"body\" data-toggle=\"popover\" data-placement=\"top\"\n" +
+                "                         data-content=\"作者地址: " + account + "\" style=\"font-size: smaller;text-align: right\"><span\n" +
+                "                            style='display: inline-block;float: left'><i\n" +
+                "                            class='glyphicon glyphicon-tags'></i> ：" + mood + "</span><span><i\n" +
+                "                            class='glyphicon glyphicon-time'></i> " + date + "</span> <span><i\n" +
+                "                            class='glyphicon glyphicon-map-marker'></i> " + address + "</span></div>\n" +
+                "\n" +
+                "                  <!--  <div style=\"font-size: smaller;text-align: right\"><span>2018-06-18</span> <span class=\"address\">广州市天河区</span>\n" +
+                "                    </div>-->\n" +
+                "                    <!--                    <div style=\"font-size: smaller;text-align: left;white-space: nowrap;-o-text-overflow:ellipsis;text-overflow: ellipsis;\">\n" +
+                "                                            <span style=\"font-weight: bold\">From:</span> <span style=\"overflow: hidden\">n1ZY3rkc7skCihD8aa26oUmAEtACdDYF6r6</span>\n" +
+                "                                        </div>-->\n" +
+                "                </div>\n" +
+                "            </div>";
+            parent.empty();
+            parent.append(ele);
+        }
+        let offset = $("#offset").val();
+        if (datas.length = offset) {
+            $("#offset").val(offset + datas.length);
+        }
+        $(".address").mouseover(function () {
+            console.log("=-===============");
+            $(this).popover("show");
+            $(this).siblings(".popover").on("mouseleave", function () {
+                $(this).popover('hide');
+            });
+        });
+        $(".address").mouseleave(function () {
+            console.log("=-===============");
+            $(this).popover("hide");
+
+        });
+    };
+
+
+    function getDiaryList() {
+        var from = $("#account").val();
+        var value = "0";
+        var nonce = "0"
+        var gas_price = "1000000"
+        var gas_limit = "2000000"
+        var callFunction = "userOpenDiaryList";
+        var callArgs = JSON.stringify([$("#offset").val(), $("#limit").val()]);
+        console.log(callArgs);
+        var contract = {
+            "function": callFunction,
+            "args": callArgs
+        }
+        neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+            var result = JSON.parse(resp.result);
+            console.log(result)
+            process_result(result);
+
+        }).catch(function (err) {
+            console.log("error :" + err.message);
+        })
+    };
+    console.log("********* send transaction *****************");
+    window.postMessage({
+        "target": "contentscript",
+        "data": {},
+        "method": "getAccount",
+    }, "*");
+    // listen message from contentscript
+    window.addEventListener('message', function (e) {
+        // e.detail contains the transferred data (can
+        console.log("recived by page:" + e + ", e.data:" + JSON.stringify(e.data));
+        if (!!e.data.data.account) {
+            $("#account").val(e.data.data.account);
+        }
+        if (!!e.data.data.txhash) {
+            document.getElementById("txResult").innerHTML = "Transaction hash\n" + JSON.stringify(e.data.data.txhash, null, '\t');
+        }
+        if (!!e.data.data.receipt) {
+            document.getElementById("txResult").innerHTML = "Transaction Receipt\n" + JSON.stringify(e.data.data.receipt, null, '\t');
+        }
+        if (!!e.data.data.neb_call) {
+            document.getElementById("txResult").innerHTML = "return of call\n" + JSON.stringify(e.data.data.neb_call, null, '\t');
+        }
+    });
+
+    $(function () {
+        $("#nextDiary").click(function () {
+            getDiaryList();
+        });
+        $(".address").mouseover(function () {
+            console.log("=-===============");
+            $(this).popover("show");
+            $(this).siblings(".popover").on("mouseleave", function () {
+                $(this).popover('hide');
+            });
+        });
+        $(".address").mouseleave(function () {
+            console.log("=-===============");
+            $(this).popover("hide");
+
+        });
+        $("#account").val(Account.NewAccount().getAddressString());
+        getDiaryList();
+    });
+</script>
 </body>
 </html>

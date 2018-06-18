@@ -22,7 +22,7 @@
     <script type="text/javascript" src="js/nebPay.js"></script>
 
 </head>
-<body >
+<body class="body-bg1">
 <style type="text/css">
     .navbar-toggle .icon-bar {
         background-color: #000;
@@ -53,21 +53,36 @@
     </div>
 </nav>
 
-<section id="account_book" style="margin-top:30px;padding-bottom: 10px;background-size:100%;background-image: url(/image/bg2.jpg);z-index: -1">
-    <div class="container">
-        <div style="text-align: center;line-height: 2em">
-            <h3 style="text-align: center;">记录一下今天的心情</h3>
-            <h5>今天阳光不错</h5>
-            <h5>吃了一顿好吃的</h5>
-            <h5>见到了喜欢的人</h5>
-            <h5>... ...</h5>
-            <h5>开始记录吧!</h5>
-            <!--       <h5>也许</h5>
-                   <h5>多年以后</h5>
-                   <h5>看到现在的记录,会有不一样的感受!</h5>-->
+<section id="account_book"
+         style="margin-top:80px;padding-bottom: 10px;background-size:100%;z-index: -1">
+    <div class="container diaryFont">
+        <div style="text-align: center;">
+            <h2 style="text-align: center;">记录一下今天的心情</h2>
+            <h4 style="line-height: 200%">午后淡淡的阳光</h4>
 
+            <h5 style="line-height: 200%">微风轻拂窗纱</h5>
+
+            <h4 style="line-height: 200%">恬淡的时光缓缓流逝</h4>
+
+            <h5 style="line-height: 200%">每刻都有不同的心情</h5>
+
+            <h4 style="line-height: 200%">吃了一顿好吃的</h4>
+
+            <h5 style="line-height: 200%">见到了喜欢的人</h5>
+
+            <h4>... ...</h4>
+
+            <h4 style="line-height: 200%">开始记录吧!</h4>
         </div>
 
+    </div>
+    <div class="modal fade" id="loadingModal">
+        <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50px;margin-left:-100px;margin-top:-10px">
+            <div class="progress progress-striped active" style="margin-bottom: 0;">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <h5 style="color:#FFF"><strong>正在发布到星云链...星云链出块时间预计为15s左右，请稍等！</strong></h5>
+        </div>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" style="width: 700px" role="document">
@@ -86,6 +101,7 @@
                                 <div class="col-lg-5 col-md-6 col-sm-12">
                                     <label class="control-label" for="title">标题</label>
                                     <input type="text" id="title" class="form-control" placeholder="请输入标题">
+                                    <input type="hidden" id="account">
                                 </div>
                             </div>
                             <div class="form-group;col-md-3">
@@ -99,8 +115,8 @@
                             <div class="col-lg-1"></div>
                             <div class="form-group;col-md-3">
                                 <div class=" col-lg-5 col-md-6 col-sm-12">
-                                    <label for="mode" style="display: inline-block">心情</label>
-                                    <select class="form-control" id="mode">
+                                    <label for="mood" style="display: inline-block">心情</label>
+                                    <select class="form-control" id="mood">
                                         <option value="开心">开心</option>
                                         <option value="郁闷">郁闷</option>
                                         <option value="沮丧">沮丧</option>
@@ -127,10 +143,9 @@
                         <div class="row" style="margin-top: 20px">
                             <div class="form-group">
                                 <div class="col-lg-1"></div>
-                                <input type="hidden" id="account">
                                 <div class="col-lg-10 col-md-12 col-sm-12">
                                     <label for="content">内容</label>
-                                    <textarea class="form-control" id="content" cols="5" placeholder="字数限制200字"
+                                    <textarea class="form-control" id="content" cols="5" placeholder="字数限制500字"
                                               rows="10"></textarea>
                                 </div>
                             </div>
@@ -154,10 +169,12 @@
                 <!--<a class="button button-3d button-primary button-rounded" id="dairyCommit">发布到星云链</a>-->
             </div>
         </div>
-    </div>    <div class="container">
+    </div>
+    <div class="container">
         <div class="row">
             <div class="col-sm-12" style="text-align: center">
-                <a class="button button-3d button-primary button-rounded" id="modal" data-toggle="modal" data-target="#myModal">记录此刻</a>
+                <a class="button button-3d button-primary button-rounded" id="modal" data-toggle="modal"
+                   data-target="#myModal">记录此刻</a>
             </div>
         </div>
     </div>
@@ -178,69 +195,67 @@
 
 <script>
     "use strict";
-    var dappContactAddress = "n1jJPsQDxGmasMhwv8yyWJyUGhzEaYQs3xE";
-    var nebulas = require("nebulas"), Account = Account, neb = new nebulas.Neb();
-    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"))
-
-
     var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
     var nebPay = new NebPay();
-    var serialNumber
-
-    function checkContent() {
-
-        var from = dappContactAddress
-        var value = "0";
-        var nonce = "0"
-        var gas_price = "1000000"
-        var gas_limit = "2000000"
-        var callFunction = "get";
-        var date = new Date().Format("yyyy-MM-dd");
-        var callArgs = "[\"" + date + "\"]";
-        console.log(callArgs);
-        var contract = {
-            "function": callFunction,
-            "args": callArgs
-        }
-
-
-        neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
-            var result = resp.result;
-
-            if (result !== 'null') {
-                alert("您今天已经记录过了,每个账号每天只能记录一次")
-                return;
-            }
-
-        }).catch(function (err) {
-            console.log("error :" + err.message);
-
-        })
-    }
-
+    var dappContactAddress = "n1qnMMZQD76XnbZ4gAkiGJArE9XMVN9Zeqj";
+    var nebulas = require("nebulas"), Account = nebulas.Account, neb = new nebulas.Neb();
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+    var serialNumber;
+    var enableDebug = true;
+    var intervalQuery;
+    var callbackUrl = NebPay.config.mainnetUrl;
 
     $('#dairyCommit').click(function () {
-        if (!$("#account").val()) {
-            alert('请安装钱包');
-        }
-        if (!$("#title").val() || !$("#address").val() || !$("#content").val() || !$("#mode").val() || !$("#privacy").val()) {
+        if (!$("#title").val() || !$("#address").val() || !$("#content").val() || !$("#mood").val() || !$("#privacy").val()) {
             alert('标题或者文本不能为空');
             return;
         }
-        checkContent();
-        var to = dappContactAddress;
         var value = "0";
         var callFunction = "save";
-        var callArgs = "[\"" + $("#title").val() + "\",\"" + $("#mode").val() + "\",\"" + $("#address").val() + "\",\"" + $("#content").val() + "\",\"" + $("#account").val() + "\",\"" + $("#privacy").val() + "\"]";
+        var content = $("#content").val();
+        content = content.split("\n").join("\\n");
+        content = content.split("\r").join("\\r");
+        var callArgs = JSON.stringify([$("#title").val(), $("#mood").val(), $("#address").val(), content, $("#privacy").val()]);
         console.log(callArgs);
-
-        serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
-            listener: function (resp) {
-                console.log("thecallback is " + resp)
-            }
+        serialNumber = nebPay.call(dappContactAddress, value, callFunction, callArgs, {
+            listener: listener,       //设置listener, 处理交易返回信息
+            callback: callbackUrl
         });
+        intervalQuery = setInterval(function () {
+            funcIntervalQuery();
+        }, 10000);
 
-    })
+        function listener(resp) {
+            $("#myModal").modal('hide');
+            $("#loadingModal").modal('show');
+            console.log(JSON.stringify(resp));
+        };
+
+
+        function funcIntervalQuery() {
+            var options = {
+                callback: callbackUrl,
+                debug: enableDebug
+            };
+            nebPay.queryPayInfo(serialNumber, options)   //search transaction result from server (result upload to server by app)
+                .then(function (resp) {
+                    var respObject = JSON.parse(resp);
+                    console.log("resp: " + JSON.stringify(resp));
+                    if (respObject.code === 0 && respObject.data.status === 1) {
+                        //交易成功,处理后续任务....
+                        $("#loadingModal").modal('hide');
+                        alert("交易成功");
+                        //处理合约返回信息
+                        var execute_result = JSON.parse(respObject.data.execute_result);
+                        alert(execute_result.message);
+                        clearInterval(intervalQuery)    //清除定时查询
+                    }
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+        };
+    });
     Date.prototype.Format = function (fmt) {
         var o = {
             "M+": this.getMonth() + 1,                 //月份
@@ -261,33 +276,6 @@
         }
         return fmt;
     };
-
-    // listen message from contentscript
-    window.addEventListener('message', function (e) {
-        // e.detail contains the transferred data (can
-        console.log("recived by page:" + e + ", e.data:" + JSON.stringify(e.data));
-        if (!!e.data.data.account) {
-            $("#account").val(e.data.data.account);
-        }
-        if (!!e.data.data.txhash) {
-            document.getElementById("txResult").innerHTML = "Transaction hash\n" + JSON.stringify(e.data.data.txhash, null, '\t');
-        }
-        if (!!e.data.data.receipt) {
-            document.getElementById("txResult").innerHTML = "Transaction Receipt\n" + JSON.stringify(e.data.data.receipt, null, '\t');
-        }
-        if (!!e.data.data.neb_call) {
-            document.getElementById("txResult").innerHTML = "return of call\n" + JSON.stringify(e.data.data.neb_call, null, '\t');
-        }
-    });
-    $(function () {
-        console.log("********* send transaction *****************")
-        //var from = document.getElementById("inputAccountAddress").value
-        window.postMessage({
-            "target": "contentscript",
-            "data": {},
-            "method": "getAccount",
-        }, "*");
-    })
 </script>
 </body>
 </html>
