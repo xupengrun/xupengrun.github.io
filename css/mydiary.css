@@ -1448,15 +1448,7 @@
 .diaryFont {
     font-family: "qingxia", "Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif, FreeSans, Arimo;
 }
-@font-face {
-    font-family: qingxia;
-    src: url('../fonts/qingxia.ttf');//字体路径
-}
 
-.fontName {
-    font-family: qingxia;
-    font-size: 60px;
-}
 .popover {
     position: absolute;
     top: 0;
