@@ -250,7 +250,7 @@
                     if (respObject.code === 0 && respObject.data.status === 1) {
                         //交易成功,处理后续任务....
                         $("#loadingModal").modal('hide');
-                        alert("交易成功");
+                        alert("星云链交易成功");
                         //处理合约返回信息
                         var execute_result = JSON.parse(respObject.data.execute_result);
                         alert(execute_result.message);
