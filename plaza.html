@@ -115,6 +115,7 @@
     var dappContactAddress = "n1qnMMZQD76XnbZ4gAkiGJArE9XMVN9Zeqj";
     var nebulas = require("nebulas"), Account = nebulas.Account, neb = new nebulas.Neb();
     neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+
     function process_result(result) {
         if (result.statusCode === 1) {
             $('#title').text(result.message);
@@ -126,6 +127,8 @@
             return;
         }
         let datas = result.data;
+        let parent = $("#list");
+        parent.empty();
         for (let index in datas) {
             let id = datas[index].id;
             let account = id.split("-")[0];
@@ -135,7 +138,6 @@
             let date = datas[index].date;
             let mood = datas[index].mood;
             let info = datas[index].date + " " + datas[index].address;
-            let parent = $("#list");
             let ele = document.createElement("div");
             ele.innerHTML = "<div class=\"col-lg-4 col-md-4\">\n" +
                 "                <div class=\"items text-center pageCard diaryFont\">\n" +
@@ -159,7 +161,7 @@
                 "                                        </div>-->\n" +
                 "                </div>\n" +
                 "            </div>";
-            parent.empty();
+
             parent.append(ele);
         }
         let offset = $("#offset").val();
